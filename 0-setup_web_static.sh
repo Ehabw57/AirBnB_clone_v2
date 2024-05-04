@@ -16,7 +16,7 @@ echo "Hello Web" > /data/web_static/releases/test/index.html
 ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 # change ownership of folder /data/
-chown -R ubuntu:ubuntu /data/
+chown -hR ubuntu:ubuntu /data/
 
 
 # Update the Nginx configuration to serve the content
