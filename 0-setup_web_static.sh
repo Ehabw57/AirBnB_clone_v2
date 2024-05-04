@@ -1,24 +1,26 @@
 #!/usr/bin/env bash
-# Sets up  my web server for deployment
-# Install Nginx
-apt-get update -y
-apt-get install nginx -y
-service nginx start
+# this is a bashscript to set up webservers for the deployment of web_static
 
-# Create the folders if it does'nt exists
-mkdir -p /data/web_static/{releases/test,shared}
+# install nginx
+sudo apt-get -y update
+sudo apt-get -y install nginx
+sudo service nginx start
 
-# Create a fake HTML file
+# creating folders if it's doesn't already exists
+sudo mkdir -p /data/web_static/{releases/test,shared}
+
+# creating fake HTML file
 echo "Hello Web" > /data/web_static/releases/test/index.html
 
-# Create a forced symbolic link 
-ln -sf /data/web_static/releases/test /data/web_static/current
+# creating new simbolic link to test folder
+ln -sf /data/web_static/releases/test/ /data/web_static/current
 
-# Give ownership of the /data/ folder to the ubuntu user AND group
-chown -R ubuntu:ubuntu /data
+# change ownership of folder /data/
+chown -R ubuntu:ubuntu /data/
 
-# Update and restart Nginx
-echo "server {
+
+# Update the Nginx configuration to serve the content
+configs="server {
     listen 80 default_server;
     listen [::]:80 default_server;
     add_header X-Served-By $HOSTNAME;
@@ -38,5 +40,10 @@ echo "server {
         root /var/www/html;
         internal;
     }
-}" > /etc/nginx/nginx.conf
-nginx -s reload
+}
+"
+
+echo "$configs" > /etc/nginx/sites-available/default
+
+# restarting nginx
+service nginx restart
