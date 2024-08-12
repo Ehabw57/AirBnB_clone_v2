@@ -10,13 +10,13 @@ sudo service nginx start
 sudo mkdir -p /data/web_static/{releases/test,shared}
 
 # creating fake HTML file
-echo "Hello Web" > /data/web_static/releases/test/index.html
+echo "Hello Web" | sudo tee /data/web_static/releases/test/index.html
 
 # creating new simbolic link to test folder
-ln -sf /data/web_static/releases/test/ /data/web_static/current
+sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 # change ownership of folder /data/
-chown -hR ubuntu:ubuntu /data/
+sudo chown -hR ubuntu:ubuntu /data/
 
 
 # Update the Nginx configuration to serve the content
@@ -43,7 +43,7 @@ configs="server {
 }
 "
 
-echo "$configs" > /etc/nginx/sites-available/default
+sudo echo "$configs" | sudo tee /etc/nginx/sites-available/default
 
 # restarting nginx
-service nginx restart
+sudo service nginx restart
