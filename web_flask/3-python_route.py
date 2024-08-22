@@ -24,7 +24,7 @@ def c(text):
 
 
 @app.route('/python/<string:text>')
-@app.route('/python')
+@app.route('/python/')
 def python(text="is cool"):
     return 'Python ' + text.replace('_', ' ')
 
