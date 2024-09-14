@@ -21,5 +21,12 @@ def states_list():
                            states=storage.all(State).values())
 
 
+@app.route('/cities_by_states', strict_slashes=False)
+def cities_by_states():
+    """Display an HTML page with a list of all City objects by States"""
+    states = storage.all(State).values()
+    return render_template('8-cities_by_states.html', states=states)
+
+
 if __name__ == '__main__':
     app.run('0.0.0.0')
